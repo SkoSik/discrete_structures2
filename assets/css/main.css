@@ -1,0 +1,12 @@
+body {
+    display: flex;
+}
+
+input {
+    width: 100px;
+    margin: 10px 10px 10px 5px;
+}
+
+div {
+    width: 500px;
+}
