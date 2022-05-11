@@ -1,12 +1,35 @@
 body {
     display: flex;
 }
-
+.table{
+    display: table;
+}
 input {
     width: 100px;
-    margin: 10px 10px 10px 5px;
+    /*margin: 10px 10px 10px 5px;*/
 }
 
 div {
     width: 500px;
+}
+mtr{
+    display: table-row;
+}
+mtable{
+    line-height: 1px;
+}
+mtd{
+    padding: 0;
+    display: table-cell;
+    margin: 4px;
+}
+table{
+    display: table;
+}
+.t1, .t2{
+    margin-top: 10px;
+}
+#btn{
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
