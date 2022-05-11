@@ -14,8 +14,11 @@ class Graph {
     add(a, b, weight) {
         if (!this.verts[a]) this.verts[a] = [{b,weight}];
         else this.verts[a].push({b,weight});
-        if (!this.verts[b]) this.verts[b] = [{a,weight}];
-        else this.verts[b].push({a,weight});
+        b = [a, a = b][0];
+        if (!this.verts[a]) this.verts[a] = [{b,weight}];
+        else this.verts[a].push({b,weight});
+        // if (!this.verts[b]) this.verts[b] = [{a,weight}];
+        // else this.verts[b].push({a,weight});
     }
 }
 

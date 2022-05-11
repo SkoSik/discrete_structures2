@@ -7,7 +7,7 @@ $(document).ready(function () {
     g.add(2,5,3);
     g.add(3,5,100);
     g.add(4,5,1);
-    $('#ost').on('click', function (){
+    $('#btn').on('click', function (){
         prim();
     });
 });
