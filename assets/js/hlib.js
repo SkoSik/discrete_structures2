@@ -3,13 +3,19 @@ class Graph {
     points;
 
     constructor() {
-        this.verts = []
+        this.verts = [];
         this.points = [];
     }
 
     add(a, b) {
         if (!this.verts[a]) this.verts[a] = [b];
         else this.verts[a].push(b);
+    }
+    add(a, b, weight) {
+        if (!this.verts[a]) this.verts[a] = [{b,weight}];
+        else this.verts[a].push({b,weight});
+        if (!this.verts[b]) this.verts[b] = [{a,weight}];
+        else this.verts[b].push({a,weight});
     }
 }
 
@@ -38,6 +44,14 @@ $(document).ready(function () {
         used = [];
         // $('#input').val('');
     });
+    $('#bfs').on('click', function(){
+        bfs(1);
+        // console.log(graph.verts)
+        graph = new Graph();
+        used = [];
+        queue = [];
+        // $('#input').val('');
+    })
     $('#add').on('click', function () {
 
         let a = parseInt($('#va').val(), 10);
@@ -51,14 +65,16 @@ $(document).ready(function () {
         $('#input').val($('#input').val() + a + " " + b + "\n");
 
     });
-    $('#bfs').on('click', function(){
-        bfs(1);
-        // console.log(graph.verts)
-        graph = new Graph();
-        used = [];
-        queue = [];
-        // $('#input').val('');
-    })
+    $('#addw').on('click', function (){
+        let a = parseInt($('#va').val(), 10);
+        let b = parseInt($('#vb').val(), 10);
+        let weight = parseInt($('#vc').val(), 10);
+        if (!a || !b || !weight) return;
+
+        graph.add(a, b, weight);
+
+        $('#input').val($('#input').val() + a + " " + b + " " + weight + "\n");
+    });
 });
 
 function dfs(v) {
@@ -67,7 +83,6 @@ function dfs(v) {
         if (!used.includes(el)) dfs(el);
     });
 }
-
 function  bfs(v){
     used = [];
     queue = [];
