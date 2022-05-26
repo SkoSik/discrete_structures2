@@ -1,46 +1,24 @@
-class Graph {
-    verts;
-
-    constructor() {
-        this.verts = [];
+function countComponentClosed() {
+    used=[];
+    let komponents = 0;
+    for(const el of G.verts){
+        if (el!=undefined && !used.includes(el.id)) {
+            dfs(el.id);
+            komponents++;
+        }
     }
-
-    add(a, b) {
-        if (!this.verts[a]) this.verts[a] = [b];
-        else this.verts[a].push(b);
-        if (!this.verts[b]) this.verts[b] = [a];
-        else this.verts[b].push(a);
-    }
+    return komponents;
 }
 
-let g = new Graph(), used = [];
 $(document).ready(function () {
-    g.add(1, 2);
-    g.add(1, 3);
-    g.add(1, 4);
-    g.add(5, 6);
-    g.add(5, 7);
-    g.add(5, 8);
-    g.add(9, 10);
-    $('#btn').on('click', function () {
-        prim();
+    $(document).on("click", "#component", function () {
+        $('#component-answer').text(countComponentClosed());
+    });
+
+    $(document).on("click", "#component-ans", function () {
+        if ($("#component-game").val() == countComponentClosed()) {
+            $("#component-answer2").text("Правильно").css({color: "green"});
+        } else $("#component-answer2").text("Неправильно").css({color: "red"});
     });
 });
 
-function dfs(v) {
-    used.push(v);
-    g.verts[v].forEach(function (el) {
-        if (!used.includes(el)) dfs(el);
-    });
-}
-
-function prim() {
-    let komponents = 0;
-    g.verts.forEach(function (el, index) {
-        if (!used.includes(index)) {
-            dfs(index);
-            komponents++;
-        }
-    });
-    console.log(komponents);
-}

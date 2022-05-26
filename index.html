@@ -4,8 +4,9 @@
     <title>Неориентированные графы</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/hlib.js"></script>
-    <script src="assets/js/1.js"></script>
+    <script src="assets/js/jquery-ui.min.js"></script>
+    <script src="assets/js/hlib2.js"></script>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="assets/css/main.css/">
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon"/>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon32.png"/>
@@ -14,16 +15,166 @@
     <meta name="Description" content=""/>
 </head>
 <body>
-<div>
-    <h3>Введите графа:</h3>
-    <input id="va" placeholder="вершина 1"/> <input id="vb" placeholder="вершина 2"/>
-    <button id="add">Добавить</button>
-    <br/>
-    <button id="dfs">ДФС</button>
+<div id="graph">
+    <svg id="lines">
+    </svg>
 </div>
-<div>
-    <h3>Граф:</h3>
-    <textarea id="input" disabled></textarea>
+<div id="settings">
+    <div class="settings-block">
+        <button id="genGraph" class="btn-primary">Сгенерировать</button>
+        <input id="gnumber" type="number" min="2" max="20"/>
+        <input type="checkbox" id="widthVerts"/>
+        <label for="widthVerts">вес</label>
+    </div>
+    <div class="settings-block">
+        <div class="input-group">
+            <select id="type-input" class="form-select">
+                <option selected disabled>Тип ввода</option>
+                <option value="1">Матрица смежности</option>
+                <option value="2">Матрица инцидентности</option>
+                <option value="3">Список смежности</option>
+            </select>
+            <input type="number" disabled id="verts" min="1" placeholder="verts" class="form-control"/>
+        </div>
+        <textarea id="input" class="form-control"></textarea>
+        <button id="inputGraph" class="btn-primary">Построить</button>
+    </div>
+    <div class="settings-block">
+        <select id="level-input" class="form-select">
+            <option selected disabled>Выбор задания</option>
+            <option value="1">Обход в глубину</option>
+            <option value="2">Обход в ширину</option>
+            <option value="3">Компонент связность</option>
+            <option value="4">Остовное дерево</option>
+            <option value="5">Кратчайшие пути</option>
+            <option value="6">Код Прюфера</option>
+            <option value="7">Раскраска графа</option>
+        </select>
+        <input type="checkbox" id="version-level"/>
+        <label for="version-level">Игра</label>
+    </div>
+
+    <div class="task" value="1">
+        <script src="assets/js/1.js"></script>
+        <div class="settings-block norm">
+            Выберите вершину:
+            <input id="dfs-number" type="number" min="1"/><br >
+            <button id="dfs" class="btn-primary" >Показать обход</button>
+        </div>
+        <div class="settings-block game columned">
+            <p>Введите порядок вершин обхода в глубину для вершины <a id="dfs-inp">1</a></p>
+            <input id="dfs-game" type="text"/>
+            <button id="dfs-ans" class="btn-primary" >Проверить</button>
+            <p id="dfs-answer"></p>
+        </div>
+    </div>
+
+    <div class="task" value="2">
+        <script src="assets/js/1.js"></script>
+        <div class="settings-block norm">
+            Выберите вершину:
+            <input id="bfs-number" type="number" min="1"/><br >
+            <button id="bfs" class="btn-primary" >Показать обход</button>
+        </div>
+        <div class="settings-block game columned">
+            <p>Введите порядок вершин обхода в ширину для вершины <a id="bfs-inp">1</a></p>
+            <input id="bfs-game" type="text"/>
+            <button id="bfs-ans" class="btn-primary" >Проверить</button>
+            <p id="bfs-answer"></p>
+        </div>
+    </div>
+
+    <div class="task" value="3">
+        <script src="assets/js/5.js"></script>
+        <div class="settings-block norm columned">
+            Число компонент связности
+            <button id="component" class="btn-primary" >Найти</button>
+            <p id="component-answer"></p>
+        </div>
+        <div class="settings-block game columned">
+            <p>Введите число компонент связности</p>
+            <input id="component-game" type="text"/>
+            <button id="component-ans" class="btn-primary" >Проверить</button>
+            <p id="component-answer2"></p>
+        </div>
+    </div>
+
+    <div class="task" value="4">
+        <script src="assets/js/7.js"></script>
+        <div class="settings-block norm columned">
+            Минимальное остовное дерево
+            <button class="minOst btn-primary">Построить</button>
+            <button class="minOstReload btn-success" style="display: none">Отменить</button>
+        </div>
+        <div class="settings-block game columned">
+            Минимальное остовное дерево
+            <button class="minOst btn-primary">Построить</button>
+            1 2 7
+            1 3 8
+            2 3 11
+            2 4 2
+            3 4 6
+            4 5 11
+            3 5 9
+            4 6 9
+            5 6 10
+            <button class="minOstReload btn-success" style="display: none">Отменить</button>
+        </div>
+    </div>
+
+    <div class="task" value="5">
+        <script src="assets/js/8.js"></script>
+        <div class="settings-block norm columned">
+            Введите номера вершин:
+            <input id="start-deijkstra" type="number"/>
+            <input id="finish-deijkstra" type="number"/>
+            <button id="deijkstra" class="btn-primary" >Найти</button>
+            <p id="deijkstra-answer"></p>
+            <button class="minOstReload btn-success" style="display: none">Отменить</button>
+        </div>
+        <script src="assets/js/9.js"></script>
+        <div class="settings-block game columned">
+            Матрица
+            <table class="t2">
+
+            </table>
+            <button id="floyd" class="btn-primary" >Построить</button>
+        </div>
+    </div>
+
+    <div class="task" value="6">
+        <script src="assets/js/10.js"></script>
+        <div class="settings-block norm columned">
+            <button id="prufer" class="btn-primary" >Закодировать</button>
+            1 2
+            1 3
+            1 4
+            3 10
+            2 5
+            2 6
+            5 7
+            6 8
+            6 9
+            <p id="prufer-answer"></p>
+        </div>
+        <script src="assets/js/11.js"></script>
+        <div class="settings-block game columned">
+            <p>Введите код Прюфера</p>
+            <input id="prufer-game" type="text"/>
+            <button id="prufer-ans" class="btn-primary" >Раскодировать</button>
+            15266213
+        </div>
+    </div>
+
+    <div class="task" value="7">
+        <script src="assets/js/12.js"></script>
+        <div class="settings-block norm columned">
+            <button class="drawColor btn-primary" >Раскрасить</button>
+        </div>
+        <div class="settings-block game columned">
+            <button class="drawColor btn-primary" >Раскрасить</button>
+        </div>
+    </div>
 </div>
 </body>
 </html>

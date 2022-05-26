@@ -1,61 +1,56 @@
-let g = new Graph();
-let f = new Graph();
 $(document).ready(function () {
-    g.add(1,2,11);
-    g.add(1,3,4);
-    g.add(1,4,5);
-    g.add(2,5,3);
-    g.add(3,5,100);
-    g.add(4,5,1);
-    $('#btn').on('click', function (){
-        prim();
+    $('.minOst').on('click', function () {
+        buildMinOstTree();
+    });
+
+    $('.minOstReload').on('click', function () {
+        $(this).hide();
+        $("line,text").show();
     });
 });
-function minNode(newgraph, minweight, n){
+
+function minNode(newgraph, minweight, n) {
     let min = 333, min_ind;
 
-    for(let i = 1; i <= n; i++)
-        if(!newgraph[i] && minweight[i] < min) {
+    for (let i = 1; i <= n; i++)
+        if (!newgraph[i] && minweight[i] < min) {
             min = minweight[i];
             min_ind = i;
         }
     return min_ind;
 }
-function prim(){
-    let parent = [], minWeight = [], ostPoints = [], list = g.verts, n = 0;
 
-    for(let i = 0; i < list.length; i++)
-        if(list[i] !== undefined)
-            n++;
+function buildMinOstTree() {
+    let parent = [], minWeight = [], ostPoints = [], list = G.verts, n = 0;
 
-    for(let i = 1; i <= n; i++){
+    n = list.length - 1;
+
+    for (let i = 1; i <= n; i++) {
         minWeight[i] = 333;
         ostPoints[i] = false;
     }
     minWeight[1] = 0;
     parent[1] = -1;
-    console.log(minWeight, ostPoints, g);
-    // for(let j = 0; j < list[1].length; j++) {
-    //     console.log(list[1][j].b, list[1][j].weight);
-    // }
-    for(let i = 0; i < n; i++){
+
+    for (let i = 0; i < n; i++) {
         let m = minNode(ostPoints, minWeight, n);
         ostPoints[m] = true;
-        for(let j = 0; j < list[m].length; j++)
-            if(!ostPoints[list[m][j].b] && list[m][j].weight < minWeight[list[m][j].b]){
-                minWeight[list[m][j].b] = list[m][j].weight;
-                parent[list[m][j].b] = m;
+        for (const el of list[m].edges) {
+            if (!ostPoints[el[0]] && el[1] < minWeight[el[0]]) {
+                minWeight[el[0]] = el[1];
+                parent[el[0]] = m;
             }
+        }
 
     }
 
-    console.log("Ребро \t Вес");
-    for(let i = 2; i <= n; i++){
-        console.log(parent[i] + " - " + i + "\t " + minWeight[i]);
+    for (let i = 2; i <= n; i++) {
+        for (const el of G.verts[i].edges) {
+            if (el[0] == parent[i] || parent.indexOf(i) == el[0] || el[0] == n) continue;
+            else {
+                G.tempRemove(i, el[0]);
+            }
+        }
     }
-
-    $('#graphout').val("Ребро \t Вес\n");
-    for(let i = 2; i <= n; i++){
-        $('#graphout').val($('#graphout').val() + parent[i] + " - " + i + "\t " + minWeight[i] + "\n")
-    }
+    $(".minOstReload").show();
 }

@@ -1,44 +1,55 @@
-let g = new Graph();
 $(document).ready(function () {
-    g.add(1,2,11);
-    g.add(1,3,4);
-    g.add(1,4,5);
-    g.add(2,5,3);
-    g.add(3,5,100);
-    g.add(4,5,1);
-    $('#btn').on('click', function (){
-        let s = $('#start').val(), f = $('#finish').val();
-        deijkstra(s,f);
+    $('#deijkstra').on('click', function () {
+        let s = parseInt($('#start-deijkstra').val()), f = parseInt($('#finish-deijkstra').val());
+        deijkstra(s, f);
     });
 });
-function deijkstra(start, finish){
-    let n = 0, list = g.verts;
-    for(let i = 0; i < list.length; i++)
-        if(list[i] !== undefined)
-            n++;
+
+function deijkstra(start, finish) {
+    let n, list = G.verts;
+    n = G.verts.length - 1;
+
     let d = [], used = [], parent = [];
-    for(let i = 1; i <= n; i++){
+    for (let i = 1; i <= n; i++) {
         d[i] = Number.MAX_VALUE;
     }
     d[start] = 0;
-    console.log(list);
-    console.log(d);
-    for(let u = 0; u < n; u++){
-        let mn = Number.MAX_VALUE, v;
-        for(let i = 1; i <= n; i++)
-            if(!used[i] && d[i] < mn){
-                mn = d[i];
+
+    for (let u = 0; u < n; u++) {
+        let v = -1;
+        for (let i = 1; i <= n; i++)
+            if (!used[i] && (v == -1 || d[i] < d[v]))
                 v = i;
+
+        if (d[v] == Number.MAX_VALUE) break;
+        used[v] = true;
+
+        for (let i = 0; i < list[v].edges.length; ++i) {
+            let t = list[v].edges[i][0];
+            let w = list[v].edges[i][1];
+            if (d[v] + w < d[t]) {
+                d[t] = d[v] + w;
+                parent[t] = v;
             }
-        used[v] = 1;
-        for(let i = 0; i < list[v].length; i++){
-            // console.log(list[v][i].b);
-            // console.log(d[v] + list[v][i].weight, d[list[v][i].b], list[v][i].b, v);
-            // console.log(d);
-            if(d[v] + list[v][i].weight < d[list[v][i].b])
-                d[list[v][i].b] = d[v] + list[v][i].weight;
         }
     }
-    console.log(d[finish]);
-    $('#graphout').val(d[finish]);
+
+    $("#deijkstra-answer").text(d[finish]);
+
+    let antiremove = [];
+    let i = finish;
+    while (i != start) {
+        antiremove.push(i);
+        i = parent[i];
+    }
+    antiremove.push(i);
+
+    for (let i = 1; i <= n; i++) {
+        for (const el of G.verts[i].edges) {
+            if (antiremove.includes(i) && antiremove.includes(el[0])) continue;
+            else G.tempRemove(i, el[0]);
+        }
+    }
+
+    $(".minOstReload").show();
 }

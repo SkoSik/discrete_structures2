@@ -1,35 +1,106 @@
 body {
     display: flex;
-}
-.table{
-    display: table;
-}
-input {
-    width: 100px;
-    /*margin: 10px 10px 10px 5px;*/
+    margin: 0;
 }
 
-div {
-    width: 500px;
+button {
 }
-mtr{
-    display: table-row;
+
+#graph {
+    height: 100%;
+    width: 90%;
+    display: flex;
 }
-mtable{
-    line-height: 1px;
+
+#settings {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    border-left: solid 2px #1c7430;
+    gap: 10px;
 }
-mtd{
-    padding: 0;
-    display: table-cell;
-    margin: 4px;
+
+.settings-block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: solid 2px #1c7430;
+    padding: 10px;
+    margin: 10px;
+    gap: 10px;
+    align-items: center;
+    align-content: center;
 }
-table{
-    display: table;
+
+#input {
+    width: 100%;
+    min-height: 150px;
 }
-.t1, .t2{
-    margin-top: 10px;
+
+#lines {
+    position: absolute;
+    width: 80%;
+    height: 100%;
 }
-#btn{
-    margin-top: 20px;
-    margin-bottom: 20px;
+
+#lines text {
+    fill: red;
+}
+
+line {
+    stroke: black;
+    stroke-width: 2;
+}
+
+.point {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    outline: 2px solid black;
+    border-radius: 50%;
+    cursor: pointer;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    background: white;
+}
+
+input[type="number"] {
+    width: 20%;
+    margin: 0 auto;
+}
+
+#widthVerts {
+    margin: auto;
+}
+
+#level-input {
+    margin: 0 auto;
+}
+
+#version-level, label {
+    margin: auto;
+}
+
+.columned {
+    flex-direction: column;
+}
+
+table, th,tr {
+    text-align: center;
+    border: black 1px solid;
+}
+td {
+    padding: 0px;
+    border: black 1px solid;
+}
+
+.task .game, .task .norm {
+    display: none;
 }
